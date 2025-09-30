@@ -59,7 +59,7 @@ function App() {
         <div
           className={`text-sm ${
             input.length === maxChars ? "text-red-500" : "text-gray-500"
-          } mb-4`}
+          } mb-4` }
         >
           {maxChars - input.length} characters remaining
         </div>
@@ -71,6 +71,7 @@ function App() {
           Add Log
         </button>
       </div>
+
 
       <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
         <h2 className="text-xl font-semibold text-indigo-600 mb-4">Your Logs</h2>
@@ -85,6 +86,23 @@ function App() {
         ) : (
           <p className="text-gray-500 italic">No logs added yet.</p>
         )}
+
+      <div style={{ marginTop: "20px" }}>
+        <h2>Your Logs</h2>
+<div>
+  {logs.length === 0 ? (
+    <p className="text-gray-500">No logs yet</p>
+  ) : (
+    <ul>
+      {logs.map((log, index) => (
+        <li key={index} className="px-2 py-1 rounded hover:bg-gray-200 transition">
+          {log}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
       </div>
 
       <div className="w-full max-w-md mt-6">
