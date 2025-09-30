@@ -37,7 +37,13 @@ function App() {
         placeholder="Write a log..."
         style={{ padding: "8px", width: "250px", marginRight: "8px" }}
       />
-      <button onClick={addLog}>Add Log</button>
+      <button
+  onClick={addLog}
+  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+>
+  Add Log
+</button>
+
 
       <div style={{ marginTop: "20px" }}>
         <h2>Your Logs</h2>
@@ -49,10 +55,19 @@ function App() {
       </div>
 
       <div style={{ marginTop: "20px" }}>
-        <button onClick={generateSummary}>Generate Summary</button>
-        <button onClick={clearLogs} style={{ marginLeft: "10px" }}>
-          Clear Logs
-        </button>
+      <button
+  onClick={generateSummary}
+  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition ml-2"
+>
+  Generate Summary
+</button>
+
+<button
+  onClick={clearLogs}
+  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
+>
+  Clear Logs
+</button>
         {summary && (
           <div style={{ marginTop: "20px" }}>
             <h2>Summary</h2>
