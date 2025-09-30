@@ -4,6 +4,7 @@ function App() {
   const [logs, setLogs] = useState([]);
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
+  const maxChars = 200;
 
   const addLog = () => {
     if (input.trim() !== "") {
@@ -33,10 +34,19 @@ function App() {
       <input
         type="text"
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (value.length <= maxChars) {
+            setInput(value);
+          }
+        }}
+        maxLength={maxChars}
         placeholder="Write a log..."
         style={{ padding: "8px", width: "250px", marginRight: "8px" }}
       />
+      <div style={{ fontSize: "12px", color: input.length === maxChars ? "red" : "gray", marginBottom: "8px" }}>
+        {maxChars - input.length} characters remaining
+      </div>
       <button
   onClick={addLog}
   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
