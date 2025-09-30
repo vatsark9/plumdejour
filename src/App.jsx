@@ -42,7 +42,7 @@ function App() {
           }
         }}
         maxLength={maxChars}
-        placeholder="Write a log..."
+        placeholder="Enter your log here..."
         style={{ padding: "8px", width: "250px", marginRight: "8px" }}
       />
       <div style={{ fontSize: "12px", color: input.length === maxChars ? "red" : "gray", marginBottom: "8px" }}>
