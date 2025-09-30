@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
 function App() {
-  const [logs, setLogs] = useState([]);
+   const [logs, setLogs] = useState(() => {
+    const savedLogs = localStorage.getItem("dailyLogs");
+    return savedLogs ? JSON.parse(savedLogs) : [];
+  });
+
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
   const maxChars = 200;
+
+ 
+  useEffect(() => {
+    localStorage.setItem("dailyLogs", JSON.stringify(logs));
+  }, [logs]);
 
   const addLog = () => {
     if (input.trim() !== "") {
@@ -24,6 +33,7 @@ function App() {
   const clearLogs = () => {
     setLogs([]);
     setSummary("");
+    localStorage.removeItem("dailyLogs");
   };
 
   return (
@@ -31,7 +41,6 @@ function App() {
       <h1 className="text-4xl font-bold text-indigo-700 mb-2">plumdejour</h1>
       <p className="text-gray-700 text-lg mb-6">Daily log tracker</p>
 
-      {/* Input Section */}
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
         <input
           type="text"
@@ -63,7 +72,6 @@ function App() {
         </button>
       </div>
 
-      {/* Logs Section */}
       <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
         <h2 className="text-xl font-semibold text-indigo-600 mb-4">Your Logs</h2>
         {logs.length > 0 ? (
