@@ -27,7 +27,8 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+    <div className="min-h-screen bg-gray-100 p-5 font-sans">
+
       <h1>plumdejour</h1>
       <p>Daily log tracker</p>
 
