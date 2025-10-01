@@ -27,7 +27,11 @@ function App() {
             id: Date.now() + Math.random(),
             text: log,
             timestamp: new Date().toISOString(),
+            tags: [],
           };
+        }
+        if (!log.tags) {
+          return { ...log, tags: [] };
         }
         return log;
       });
@@ -39,23 +43,29 @@ function App() {
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
-  const addLog = () => {
+  const addLog = (tags = []) => {
     if (input.trim()) {
       const newLog = {
         id: Date.now() + Math.random(),
         text: input.trim(),
         timestamp: new Date().toISOString(),
+        tags: tags,
       };
       setLogs([...logs, newLog]);
       setInput("");
     }
   };
 
-  const updateLog = (id, newText) => {
+  const updateLog = (id, newText, newTags = null) => {
     setLogs(
       logs.map((log) =>
         log.id === id
-          ? { ...log, text: newText, timestamp: new Date().toISOString() }
+          ? { 
+              ...log, 
+              text: newText, 
+              timestamp: new Date().toISOString(),
+              tags: newTags !== null ? newTags : log.tags
+            }
           : log
       )
     );
