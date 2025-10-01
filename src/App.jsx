@@ -7,7 +7,11 @@ import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 
 function App() {
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState(() => {
+    // Initialize state with data from localStorage
+    const savedLogs = localStorage.getItem("dailyLogs");
+    return savedLogs ? JSON.parse(savedLogs) : [];
+  });
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
   const maxChars = 200;
@@ -17,14 +21,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Load logs from localStorage on initial render
-    const savedLogs = localStorage.getItem("dailyLogs");
-    if (savedLogs) {
-      setLogs(JSON.parse(savedLogs));
-    }
-  }, []);
- 
-  useEffect(() => {
+    // Save logs to localStorage whenever logs change
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
