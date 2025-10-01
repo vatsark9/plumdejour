@@ -27,7 +27,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-5 font-sans">
+    <div className="min-h-screen bg-gray-100 p-5 font-mono">
+
 
       <h1>plumdejour</h1>
       <p>Daily log tracker</p>
