@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
 import LogList from "./components/LogList";
@@ -67,7 +68,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
+    <div className="min-h-screen animated-gradient flex flex-col items-center p-5 font-['Inter'] relative">
       <Header />
       <LogInput
         maxChars={maxChars}
@@ -76,19 +77,19 @@ function App() {
         addLog={addLog}
       />
       <LogList logs={logs} />
-      <div className="w-full max-w-md mt-6">
-        <div className="flex gap-4">
+      <div className="w-full max-w-md mt-8 relative z-10">
+        <div className="flex gap-4 justify-center">
           <button
             onClick={generateSummary}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            className="btn-ripple bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 glow-on-hover"
           >
-            Generate Summary
+            ✨ Generate Summary
           </button>
           <button
             onClick={clearLogs}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
+            className="btn-ripple bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 glow-on-hover"
           >
-            Clear Logs
+            🗑️ Clear Logs
           </button>
         </div>
         <Summary summary={summary} />
