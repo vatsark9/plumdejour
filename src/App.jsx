@@ -51,6 +51,19 @@ function App() {
     }
   };
 
+  const updateLog = (id, newText) => {
+    setLogs(
+      logs.map((log) =>
+        log.id === id
+          ? { ...log, text: newText, timestamp: new Date().toISOString() }
+          : log
+      )
+    );
+    if (summary) {
+      setSummary("");
+    }
+  };
+
   const generateSummary = () => {
     if (logs.length > 0) {
       const summaryText = logs.map((log) => log.text).join(". ") + ".";
@@ -75,7 +88,7 @@ function App() {
         setInput={setInput}
         addLog={addLog}
       />
-      <LogList logs={logs} />
+      <LogList logs={logs} updateLog={updateLog} />
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
           <button
