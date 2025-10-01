@@ -97,6 +97,10 @@ function App() {
           </div>
         )}
       </div>
+      <footer className="mt-10 text-center text-gray-600">
+  Made with 💜 for Hacktoberfest
+</footer>
+
     </div>
   );
 }
