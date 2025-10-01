@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
@@ -23,21 +22,26 @@ function App() {
       setLogs(JSON.parse(savedLogs));
     }
   }, []);
- 
+
   useEffect(() => {
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
   const addLog = () => {
     if (input.trim()) {
-      setLogs([...logs, input]);
+      const newLog = {
+        text: input,
+        date: new Date().toLocaleDateString(),
+        timestamp: new Date().toISOString(),
+      };
+      setLogs([...logs, newLog]);
       setInput("");
     }
   };
 
   const generateSummary = () => {
     if (logs.length > 0) {
-      setSummary(logs.join(". ") + ".");
+      setSummary(logs.map((log) => log.text).join(". ") + ".");
     } else {
       setSummary("No logs for today.");
     }
@@ -52,7 +56,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
       <Header />
-      <LogInput maxChars={maxChars} input={input} setInput={setInput} addLog={addLog} />
+      <LogInput
+        maxChars={maxChars}
+        input={input}
+        setInput={setInput}
+        addLog={addLog}
+      />
       <LogList logs={logs} />
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
