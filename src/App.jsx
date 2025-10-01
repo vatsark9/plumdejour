@@ -21,7 +21,20 @@ function App() {
     const savedLogs = localStorage.getItem("dailyLogs");
     if (savedLogs) {
       try {
-        setLogs(JSON.parse(savedLogs));
+        const parsedLogs = JSON.parse(savedLogs);
+        
+        // Handle migration from old string format to new object format
+        const migratedLogs = parsedLogs.map((log) => {
+          if (typeof log === "string") {
+            return {
+              id: Date.now() + Math.random(),
+              text: log,
+              timestamp: new Date().toISOString(),
+            };
+          }
+          return log;
+        });
+        setLogs(migratedLogs);
       } catch (error) {
         console.error("Error parsing saved logs:", error);
       }
@@ -35,12 +48,14 @@ function App() {
       localStorage.setItem("dailyLogs", JSON.stringify(logs));
     }
   }, [logs, isLoaded]);
+  
   const addLog = () => {
     if (input.trim()) {
       const newLog = {
-        text: input,
-        date: new Date().toLocaleDateString(),
-        timestamp: new Date().toISOString(),
+        text: input.trim(),
+        id: Date.now() + Math.random(),
+        // Ensure timestamp is used, as the LogList Canvas file relies on it for display
+        timestamp: new Date().toISOString(), 
       };
       setLogs([...logs, newLog]);
       setInput("");
@@ -49,7 +64,8 @@ function App() {
 
   const generateSummary = () => {
     if (logs.length > 0) {
-      setSummary(logs.map((log) => log.text).join(". ") + ".");
+      const summaryText = logs.map((log) => log.text).join(". ") + ".";
+      setSummary(summaryText);
     } else {
       setSummary("No logs for today.");
     }
