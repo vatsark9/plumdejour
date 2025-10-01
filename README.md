@@ -22,7 +22,7 @@
 - Local storage persistence
 - Hacktoberfest-friendly issues
 
-git clone https://github.com/YOUR-USERNAME/plumdejour.git
+git clone https://github.com/vatsark9/plumdejour.git
 cd plumdejour
 npm install
 npm run dev
@@ -53,9 +53,5 @@ npm run dev
 ```
 
 App will be live at [http://localhost:5173](http://localhost:5173)
-
----
-
-## 🖥️ Usage
 
 ---
