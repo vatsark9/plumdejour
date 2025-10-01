@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
@@ -10,7 +9,22 @@ function App() {
   const [logs, setLogs] = useState(() => {
     // Initialize state with data from localStorage
     const savedLogs = localStorage.getItem("dailyLogs");
-    return savedLogs ? JSON.parse(savedLogs) : [];
+    if (savedLogs) {
+      const parsedLogs = JSON.parse(savedLogs);
+      // Handle migration from old string format to new object format
+      const migratedLogs = parsedLogs.map((log) => {
+        if (typeof log === "string") {
+          return {
+            id: Date.now() + Math.random(),
+            text: log,
+            timestamp: new Date().toISOString(),
+          };
+        }
+        return log;
+      });
+      return migratedLogs;
+    }
+    return [];
   });
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
@@ -27,14 +41,20 @@ function App() {
 
   const addLog = () => {
     if (input.trim()) {
-      setLogs([...logs, input]);
+      const newLog = {
+        id: Date.now() + Math.random(),
+        text: input.trim(),
+        timestamp: new Date().toISOString(),
+      };
+      setLogs([...logs, newLog]);
       setInput("");
     }
   };
 
   const generateSummary = () => {
     if (logs.length > 0) {
-      setSummary(logs.join(". ") + ".");
+      const summaryText = logs.map((log) => log.text).join(". ") + ".";
+      setSummary(summaryText);
     } else {
       setSummary("No logs for today.");
     }
@@ -49,7 +69,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
       <Header />
-      <LogInput maxChars={maxChars} input={input} setInput={setInput} addLog={addLog} />
+      <LogInput
+        maxChars={maxChars}
+        input={input}
+        setInput={setInput}
+        addLog={addLog}
+      />
       <LogList logs={logs} />
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
