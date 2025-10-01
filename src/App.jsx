@@ -6,17 +6,8 @@ import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 
 function App() {
-  const [logs, setLogs] = useState([]);
-  const [input, setInput] = useState("");
-  const [summary, setSummary] = useState("");
-  const maxChars = 200;
-
-  useEffect(() => {
-    document.title = "plumdejour - Daily Log Tracker";
-  }, []);
-
-  useEffect(() => {
-    // Load logs from localStorage on initial render
+  const [logs, setLogs] = useState(() => {
+    // Initialize state with data from localStorage
     const savedLogs = localStorage.getItem("dailyLogs");
     if (savedLogs) {
       const parsedLogs = JSON.parse(savedLogs);
@@ -31,11 +22,20 @@ function App() {
         }
         return log;
       });
-      setLogs(migratedLogs);
+      return migratedLogs;
     }
+    return [];
+  });
+  const [input, setInput] = useState("");
+  const [summary, setSummary] = useState("");
+  const maxChars = 200;
+
+  useEffect(() => {
+    document.title = "plumdejour - Daily Log Tracker";
   }, []);
 
   useEffect(() => {
+    // Save logs to localStorage whenever logs change
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
