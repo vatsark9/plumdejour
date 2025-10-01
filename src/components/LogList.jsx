@@ -1,5 +1,7 @@
+
 import { useState } from 'react';
 import { useEffect } from 'react';
+
 function LogList({ logs, updateLog }) {
     const [editingId, setEditingId] = useState(null);
     const [editText, setEditText] = useState('');
@@ -17,6 +19,7 @@ function LogList({ logs, updateLog }) {
             const filtered = logs.filter((log) => {
                 if (!startDate && !endDate) return true;
                 if (!log.date) return false;
+
 
                 const logDate = new Date(log.date);
 
@@ -88,6 +91,7 @@ function LogList({ logs, updateLog }) {
                                 Clear
                             </button>
                         </div>
+
                     )}
                 </div>
             </div>

@@ -40,3 +40,44 @@
 .read-the-docs {
   color: #888;
 }
+
+.markdown-content h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.5em 0;
+}
+.markdown-content h2 {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 0.5em 0;
+}
+.markdown-content h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0.5em 0;
+}
+.markdown-content strong {
+  font-weight: bold;
+}
+.markdown-content em {
+  font-style: italic;
+}
+.markdown-content code {
+  background: #f3f4f6;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+.markdown-content ul {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+.markdown-content ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+.markdown-content blockquote {
+  border-left: 4px solid #ccc;
+  margin: 0.5em 0;
+  padding-left: 1em;
+  color: #666;
+}
