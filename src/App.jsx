@@ -67,7 +67,7 @@ function App() {
   };
 
   const generateSummary = () => {
-    if (logs.length > 0)
+    if (logs.length > 0){
       setSummary(logs.map((log) => log.text).join(". ") + ".");
       const summaryText = logs.map((log) => log.text).join(". ") + ".";
       setSummary(summaryText);
