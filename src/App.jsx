@@ -37,6 +37,28 @@ function App() {
   };
 
   return (
+    <div className="min-h-screen bg-gray-100 p-5 font-mono">
+
+
+      <h1>plumdejour</h1>
+      <p>Daily log tracker</p>
+
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (value.length <= maxChars) {
+            setInput(value);
+          }
+        }}
+        maxLength={maxChars}
+        placeholder="Enter your log here..."
+        style={{ padding: "8px", width: "250px", marginRight: "8px" }}
+      />
+      <div style={{ fontSize: "12px", color: input.length === maxChars ? "red" : "gray", marginBottom: "8px" }}>
+        {maxChars - input.length} characters remaining
+
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-200 flex flex-col items-center justify-start p-8 font-sans">
       <h1 className="text-4xl font-bold text-indigo-700 mb-2">plumdejour</h1>
       <p className="text-gray-700 text-lg mb-6">Daily log tracker</p>
@@ -70,6 +92,7 @@ function App() {
         >
           Add Log
         </button>
+
       </div>
 
 
