@@ -1,3 +1,5 @@
+> **⭐ Before opening any issue or PR, please star this repository and assign yourself to the issue you want to work on!**
+
 <div align="center">
 	<img src="public/vite.svg" width="80" />
 	<h1>plumdejour</h1>
