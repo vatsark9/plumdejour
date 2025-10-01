@@ -4,6 +4,7 @@ import LogInput from "./components/LogInput";
 import LogList from "./components/LogList";
 import Summary from "./components/Summary";
 import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   const [logs, setLogs] = useState([]);
