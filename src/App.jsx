@@ -16,7 +16,7 @@ function App() {
   }, [logs]);
 
 const addLog = () => {
-  if (input.trim() !== "" && input.length <= 200) {
+  if (input.trim() !== "" && input.length <= 201) {
     setLogs([...logs, input]);
     setInput("");
   }
