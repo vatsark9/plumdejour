@@ -5,43 +5,44 @@
 ```markdown
 # Contributing to plumdejour
 
-Thanks for your interest in contributing! 🎉  
-We want to keep this project beginner-friendly, especially for Hacktoberfest.
+Thank you for your interest in contributing! 🚀
+We strive to keep this project welcoming, beginner-friendly, and open to all skill levels—especially for Hacktoberfest.
 
 ---
 
-## 👣 How to Contribute
-1. Fork the repository  
-2. Clone your fork locally  
-3. Create a new branch (`git checkout -b feature-name`)  
-4. Make your changes  
-5. Commit and push (`git push origin feature-name`)  
-6. Open a Pull Request (PR)
+## How to Contribute
+1. **Fork** the repository
+2. **Clone** your fork locally
+3. **Create a branch** (`git checkout -b feature-name`)
+4. **Make your changes**
+5. **Commit and push** (`git push origin feature-name`)
+6. **Open a Pull Request (PR)**
 
 ---
 
-## 🏷️ Guidelines
-- Follow **clean code practices**  
-- Use **meaningful commit messages**  
-- Keep PRs **small and focused**  
-- Add comments if needed
+## Best Practices
+- Write clean, readable code
+- Use clear, descriptive commit messages
+- Keep PRs focused and minimal
+- Add comments for clarity when needed
+- Test your changes before submitting
 
 ---
 
-## ✅ PR Requirements
-- Reference the issue number in your PR (example: `Fixes #2`)  
-- Pass basic functionality checks (`npm run dev` works)  
-- Avoid committing `node_modules`
+## Pull Request Requirements
+- Reference the relevant issue number (e.g., `Fixes #2`)
+- Ensure `npm run dev` works without errors
+- Do **not** commit `node_modules` or build artifacts
 
 ---
 
-## 🌱 Good First Issues
-We have prepared issues labeled:  
-- `good first issue`  
-- `help wanted`  
+## Good First Issues
+Look for issues labeled:
+- `good first issue`
+- `help wanted`
 - `hacktoberfest`
 
-Start there if you’re new!
+These are great starting points for new contributors!
 
 ---
 
