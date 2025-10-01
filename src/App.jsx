@@ -45,7 +45,8 @@ const generateSummary = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-5 font-mono">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
+
 
 
 <header className="mb-6 text-center">
