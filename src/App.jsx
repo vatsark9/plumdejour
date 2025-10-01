@@ -95,12 +95,13 @@ const generateSummary = () => {
           {maxChars - input.length} characters remaining
         </div>
 
-        <button
-          onClick={addLog}
-          className="w-full bg-indigo-500 text-white py-2 rounded-lg hover:bg-indigo-600 transition"
-        >
-          Add Log
-        </button>
+<button
+  onClick={addLog}
+  className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition"
+>
+  Add Log
+</button>
+
 
       </div>
 
@@ -139,18 +140,20 @@ const generateSummary = () => {
 
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
-          <button
-            onClick={generateSummary}
-            className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition"
-          >
-            Generate Summary
-          </button>
-          <button
-            onClick={clearLogs}
-            className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
-          >
-            Clear Logs
-          </button>
+       <button
+  onClick={generateSummary}
+  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+>
+  Generate Summary
+</button>
+
+<button
+  onClick={clearLogs}
+  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
+>
+  Clear Logs
+</button>
+
         </div>
 
         {summary && (
