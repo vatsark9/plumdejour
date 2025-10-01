@@ -23,26 +23,18 @@ function LogList({ logs, updateLog }) {
   };
 
   return (
-    <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
-      <h2 className="text-xl font-semibold text-indigo-600 mb-4">Your Logs</h2>
+    <div className="w-full max-w-md mt-8 bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 transition-colors duration-300">
+      <h2 className="text-xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Your Logs</h2>
       {logs.length > 0 ? (
-        <ul className="list-disc list-inside space-y-2 text-gray-700">
-          {logs.map((log, index) => (
-            <li key={index} className="bg-gray-100 p-3 rounded-lg flex justify-between items-center">
-              <span className="text-gray-800">
-                {typeof log === "string" ? log : log.text}
-              </span>
-              {typeof log === "object" && log.date && (
-                <span className="text-xs text-gray-500 ml-2 flex-shrink-0">{log.date}</span>
-        <ul className="space-y-3 text-gray-700">
+        <ul className="space-y-3 text-gray-700 dark:text-gray-300">
           {logs.map((log) => (
-            <li key={log.id || log} className="bg-gray-100 p-3 rounded-lg">
+            <li key={log.id || log} className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
               {editingId === log.id ? (
                 <div className="space-y-2">
                   <textarea
                     value={editText}
                     onChange={(e) => setEditText(e.target.value)}
-                    className="w-full p-2 border border-indigo-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                    className="w-full p-2 border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
                     rows="3"
                     maxLength="200"
                   />
@@ -64,37 +56,39 @@ function LogList({ logs, updateLog }) {
               ) : (
                 <div className="flex justify-between items-start gap-3">
                   <div className="flex-1">
-                    <div className="text-gray-800">
+                    <div className="text-gray-800 dark:text-gray-200">
                       {typeof log === "string" ? log : log.text}
                     </div>
                     {typeof log === "object" && log.timestamp && (
-                      <div className="text-xs text-gray-500 mt-1">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         {new Date(log.timestamp).toLocaleString()}
                       </div>
                     )}
                   </div>
-                  <button
-                    onClick={() => startEdit(log)}
-                    className="text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 p-2 rounded transition flex-shrink-0"
-                    aria-label="Edit log"
-                    title="Edit this log"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                  {log.id && (
+                    <button
+                      onClick={() => startEdit(log)}
+                      className="text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 p-2 rounded transition flex-shrink-0"
+                      aria-label="Edit log"
+                      title="Edit this log"
                     >
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
               )}
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-gray-500 italic">No logs added yet.</p>
+        <p className="text-gray-500 dark:text-gray-400 italic">No logs added yet.</p>
       )}
     </div>
   );
