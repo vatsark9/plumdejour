@@ -3,8 +3,10 @@ import Navbar from "./components/Navbar.jsx";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
 import LogList from "./components/LogList";
+import SearchAndFilter from "./components/SearchAndFilter";
 import Summary from "./components/Summary";
 import Footer from "./components/Footer";
+import { filterLogs } from "./utils/tagUtils";
 import "./App.css";
 
 function App() {
@@ -31,7 +33,12 @@ function App() {
   
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
   const maxChars = 200;
+
+  // Filter logs based on search and tags
+  const filteredLogs = filterLogs(logs, searchTerm, selectedTags);
 
   useEffect(() => {
     document.title = "plumdejour - Daily Log Tracker";
@@ -69,8 +76,11 @@ function App() {
   };
 
   const generateSummary = () => {
-    if (logs.length > 0){
-      const summaryText = logs.map((log) => log.text).join(". ") + ".";
+    // Generate summary from filtered logs
+    const logsToSummarize = filteredLogs.length > 0 ? filteredLogs : logs;
+    
+    if (logsToSummarize.length > 0){
+      const summaryText = logsToSummarize.map((log) => log.text).join(". ") + ".";
       setSummary(summaryText);
     } else {
       setSummary("No logs for today.");
@@ -80,33 +90,62 @@ function App() {
   const clearLogs = () => {
     setLogs([]);
     setSummary("");
+    setSearchTerm("");
+    setSelectedTags([]);
     localStorage.removeItem("dailyLogs");
+  };
+
+  const handleTagClick = (tag) => {
+    // Add tag to selected tags if not already selected
+    if (!selectedTags.includes(tag.toLowerCase())) {
+      setSelectedTags([...selectedTags, tag.toLowerCase()]);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
       <Navbar />
       <Header />
+      
+      {/* Search and Filter Section */}
+      <SearchAndFilter
+        logs={logs}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+      />
+      
       <LogInput
         maxChars={maxChars}
         input={input}
         setInput={setInput}
         addLog={addLog}
+        logs={logs}
       />
-      <LogList logs={logs} updateLog={updateLog} />
+      
+      <LogList 
+        logs={logs} 
+        updateLog={updateLog} 
+        searchTerm={searchTerm}
+        selectedTags={selectedTags}
+        onTagClick={handleTagClick}
+      />
+      
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
           <button
             onClick={generateSummary}
             className="bg-green-500 dark:bg-green-600 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-700 transition-colors duration-300"
+            title={filteredLogs.length !== logs.length ? `Generate summary from ${filteredLogs.length} filtered logs` : "Generate summary from all logs"}
           >
-            Generate Summary
+            Generate Summary {filteredLogs.length !== logs.length && `(${filteredLogs.length})`}
           </button>
           <button
             onClick={clearLogs}
             className="bg-red-500 dark:bg-red-600 text-white px-4 py-2 rounded hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300 ml-2"
           >
-            Clear Logs
+            Clear All
           </button>
         </div>
         <Summary summary={summary} />
