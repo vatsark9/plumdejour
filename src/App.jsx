@@ -58,16 +58,20 @@ function App() {
 
       <div style={{ marginTop: "20px" }}>
         <h2>Your Logs</h2>
-<ul>
-  {logs.map((log, index) => (
-    <li
-      key={index}
-      className="px-2 py-1 rounded hover:bg-gray-200 transition"
-    >
-      {log}
-    </li>
-  ))}
-</ul>
+<div>
+  {logs.length === 0 ? (
+    <p className="text-gray-500">No logs yet</p>
+  ) : (
+    <ul>
+      {logs.map((log, index) => (
+        <li key={index} className="px-2 py-1 rounded hover:bg-gray-200 transition">
+          {log}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
 
       </div>
