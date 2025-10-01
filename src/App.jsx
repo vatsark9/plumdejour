@@ -15,21 +15,28 @@ function App() {
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
-const addLog = () => {
-  if (input.trim() !== "" && input.length <= 201) {
-    setLogs([...logs, input]);
-    setInput("");
+<ul>
+  {logs.map((log, index) => (
+    <li
+      key={index}
+      className="px-2 py-1 rounded hover:bg-gray-200 transition"
+    >
+      <span className="font-medium">{log.text}</span>
+      <br />
+      <span className="text-xs text-gray-500">{log.date}</span>
+    </li>
+  ))}
+</ul>
+
+
+const generateSummary = () => {
+  if (logs.length > 0) {
+    setSummary(logs.map(log => log.text).join(". ") + ".");
+  } else {
+    setSummary("No logs for today.");
   }
 };
 
-
-  const generateSummary = () => {
-    if (logs.length > 0) {
-      setSummary(logs.join(". ") + ".");
-    } else {
-      setSummary("No logs for today.");
-    }
-  };
 
   const clearLogs = () => {
     setLogs([]);
