@@ -42,6 +42,8 @@ function App() {
   const addLog = () => {
     if (input.trim()) {
       const newLog = {
+        text: input,
+        date: new Date().toLocaleDateString(),
         id: Date.now() + Math.random(),
         text: input.trim(),
         timestamp: new Date().toISOString(),
@@ -65,7 +67,8 @@ function App() {
   };
 
   const generateSummary = () => {
-    if (logs.length > 0) {
+    if (logs.length > 0)
+      setSummary(logs.map((log) => log.text).join(". ") + ".");
       const summaryText = logs.map((log) => log.text).join(". ") + ".";
       setSummary(summaryText);
     } else {
