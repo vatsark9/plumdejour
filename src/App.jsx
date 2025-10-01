@@ -28,6 +28,14 @@ function App() {
   });
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Initialize dark mode from localStorage or system preference
+    const savedTheme = localStorage.getItem("darkMode");
+    if (savedTheme !== null) {
+      return savedTheme === "true";
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
   const maxChars = 200;
 
   useEffect(() => {
@@ -38,6 +46,23 @@ function App() {
     // Save logs to localStorage whenever logs change
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
+
+  useEffect(() => {
+    // Save dark mode preference to localStorage
+    localStorage.setItem("darkMode", isDarkMode.toString());
+    // Apply dark mode class to document
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    console.log("Dark mode:", isDarkMode, "Class list:", document.documentElement.classList.toString());
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    console.log("Toggling dark mode from:", isDarkMode, "to:", !isDarkMode);
+    setIsDarkMode(!isDarkMode);
+  };
 
   const addLog = () => {
     if (input.trim()) {
@@ -83,7 +108,26 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
+      <div className="w-full max-w-md mb-4 flex justify-end">
+        <button
+          onClick={toggleDarkMode}
+          className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 flex items-center gap-2"
+          title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {isDarkMode ? (
+            <>
+              <span>☀️</span>
+              <span className="hidden sm:inline">Light</span>
+            </>
+          ) : (
+            <>
+              <span>🌙</span>
+              <span className="hidden sm:inline">Dark</span>
+            </>
+          )}
+        </button>
+      </div>
       <Header />
       <LogInput
         maxChars={maxChars}
