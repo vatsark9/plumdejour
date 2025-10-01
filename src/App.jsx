@@ -6,17 +6,8 @@ import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 
 function App() {
-  const [logs, setLogs] = useState([]);
-  const [input, setInput] = useState("");
-  const [summary, setSummary] = useState("");
-  const maxChars = 200;
-
-  useEffect(() => {
-    document.title = "plumdejour - Daily Log Tracker";
-  }, []);
-
-  useEffect(() => {
-    // Load logs from localStorage on initial render
+  const [logs, setLogs] = useState(() => {
+    // Initialize state with data from localStorage
     const savedLogs = localStorage.getItem("dailyLogs");
     if (savedLogs) {
       const parsedLogs = JSON.parse(savedLogs);
@@ -35,17 +26,28 @@ function App() {
         }
         return log;
       });
-      setLogs(migratedLogs);
+      return migratedLogs;
     }
+    return [];
+  });
+  const [input, setInput] = useState("");
+  const [summary, setSummary] = useState("");
+  const maxChars = 200;
+
+  useEffect(() => {
+    document.title = "plumdejour - Daily Log Tracker";
   }, []);
 
   useEffect(() => {
+    // Save logs to localStorage whenever logs change
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
   const addLog = (tags = []) => {
     if (input.trim()) {
       const newLog = {
+        text: input,
+        date: new Date().toLocaleDateString(),
         id: Date.now() + Math.random(),
         text: input.trim(),
         timestamp: new Date().toISOString(),
@@ -75,7 +77,8 @@ function App() {
   };
 
   const generateSummary = () => {
-    if (logs.length > 0) {
+    if (logs.length > 0)
+      setSummary(logs.map((log) => log.text).join(". ") + ".");
       const summaryText = logs.map((log) => log.text).join(". ") + ".";
       setSummary(summaryText);
     } else {
