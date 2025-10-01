@@ -58,7 +58,7 @@ function App() {
 
       <div style={{ marginTop: "20px" }}>
         <h2>Your Logs</h2>
-      <ul>
+<ul>
   {logs.map((log, index) => (
     <li
       key={index}
@@ -68,6 +68,7 @@ function App() {
     </li>
   ))}
 </ul>
+
 
       </div>
 
