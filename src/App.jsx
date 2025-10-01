@@ -57,14 +57,11 @@ const generateSummary = () => {
 <input
   type="text"
   value={input}
-  onChange={(e) => {
-    if (e.target.value.length <= 200) {
-      setInput(e.target.value);
-    }
-  }}
+  onChange={(e) => setInput(e.target.value)}
   placeholder="Enter your log here..."
-  className="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64"
+  className="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 w-64 shadow-sm"
 />
+
 <p className="text-sm text-gray-500">{200 - input.length} characters remaining</p>
 
       <div style={{ fontSize: "12px", color: input.length === maxChars ? "red" : "gray", marginBottom: "8px" }}>
