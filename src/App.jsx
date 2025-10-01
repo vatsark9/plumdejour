@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
 function App() {
-  const [logs, setLogs] = useState([]);
+   const [logs, setLogs] = useState(() => {
+    const savedLogs = localStorage.getItem("dailyLogs");
+    return savedLogs ? JSON.parse(savedLogs) : [];
+  });
+
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
   const maxChars = 200;
+
+ 
+  useEffect(() => {
+    localStorage.setItem("dailyLogs", JSON.stringify(logs));
+  }, [logs]);
 
   const addLog = () => {
     if (input.trim() !== "") {
@@ -24,6 +33,7 @@ function App() {
   const clearLogs = () => {
     setLogs([]);
     setSummary("");
+    localStorage.removeItem("dailyLogs");
   };
 
   return (
@@ -48,14 +58,57 @@ function App() {
       />
       <div style={{ fontSize: "12px", color: input.length === maxChars ? "red" : "gray", marginBottom: "8px" }}>
         {maxChars - input.length} characters remaining
-      </div>
-      <button
-  onClick={addLog}
-  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
->
-  Add Log
-</button>
 
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-200 flex flex-col items-center justify-start p-8 font-sans">
+      <h1 className="text-4xl font-bold text-indigo-700 mb-2">plumdejour</h1>
+      <p className="text-gray-700 text-lg mb-6">Daily log tracker</p>
+
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value.length <= maxChars) {
+              setInput(value);
+            }
+          }}
+          maxLength={maxChars}
+          placeholder="Enter your log here..."
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+
+        <div
+          className={`text-sm ${
+            input.length === maxChars ? "text-red-500" : "text-gray-500"
+          } mb-4` }
+        >
+          {maxChars - input.length} characters remaining
+        </div>
+
+        <button
+          onClick={addLog}
+          className="w-full bg-indigo-500 text-white py-2 rounded-lg hover:bg-indigo-600 transition"
+        >
+          Add Log
+        </button>
+
+      </div>
+
+
+      <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
+        <h2 className="text-xl font-semibold text-indigo-600 mb-4">Your Logs</h2>
+        {logs.length > 0 ? (
+          <ul className="list-disc list-inside space-y-2 text-gray-700">
+            {logs.map((log, index) => (
+              <li key={index} className="bg-gray-100 p-2 rounded-lg">
+                {log}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500 italic">No logs added yet.</p>
+        )}
 
       <div style={{ marginTop: "20px" }}>
         <h2>Your Logs</h2>
@@ -73,31 +126,42 @@ function App() {
   )}
 </div>
 
-
-
       </div>
 
-      <div style={{ marginTop: "20px" }}>
-      <button
-  onClick={generateSummary}
-  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition ml-2"
->
-  Generate Summary
-</button>
+      <div className="w-full max-w-md mt-6">
+        <div className="flex gap-4">
+          <button
+            onClick={generateSummary}
+            className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition"
+          >
+            Generate Summary
+          </button>
+          <button
+            onClick={clearLogs}
+            className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+          >
+            Clear Logs
+          </button>
+        </div>
 
-<button
-  onClick={clearLogs}
-  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
->
-  Clear Logs
-</button>
         {summary && (
-          <div style={{ marginTop: "20px" }}>
-            <h2>Summary</h2>
-            <p>{summary}</p>
+          <div className="mt-6 bg-white shadow-md rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-indigo-600 mb-2">
+              Summary
+            </h2>
+            <p className="text-gray-700">{summary}</p>
           </div>
         )}
       </div>
+localstorage
+    
+    </div>
+
+      <footer className="mt-10 text-center text-gray-600">
+  Made with 💜 for Hacktoberfest
+</footer>
+
+
     </div>
   );
 }
