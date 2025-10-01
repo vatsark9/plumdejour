@@ -14,6 +14,8 @@ yarn-error.log*
 .DS_Store
 # Build output
 build/
+# Test coverage
+coverage/
 # Misc
 *.log
 *.tmp

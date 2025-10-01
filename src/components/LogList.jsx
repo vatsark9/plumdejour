@@ -1,6 +1,9 @@
-import { useState } from "react";
+
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function LogList({ logs, updateLog }) {
+
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
   const [editTags, setEditTags] = useState([]);
@@ -180,24 +183,10 @@ function LogList({ logs, updateLog }) {
                       <div className="text-xs text-gray-500 mt-1">
                         {new Date(log.timestamp).toLocaleString()}
                       </div>
+
                     )}
-                  </div>
-                  <button
-                    onClick={() => startEdit(log)}
-                    className="text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 p-2 rounded transition flex-shrink-0"
-                    aria-label="Edit log"
-                    title="Edit this log"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                  </button>
                 </div>
+
               )}
             </li>
           ))}
@@ -209,6 +198,8 @@ function LogList({ logs, updateLog }) {
       )}
     </div>
   );
+
+
 }
 
 export default LogList;
