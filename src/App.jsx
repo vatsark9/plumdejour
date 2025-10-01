@@ -1,10 +1,13 @@
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-   const [logs, setLogs] = useState(() => {
-    const savedLogs = localStorage.getItem("dailyLogs");
-    return savedLogs ? JSON.parse(savedLogs) : [];
-  });
+  const [logs, setLogs] = useState([]);
+  const [input, setInput] = useState("");
+  const [summary, setSummary] = useState("");
+
+  useEffect(() => {
+    document.title = "plumdejour - Daily Log Tracker";
+  }, []);
 
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
