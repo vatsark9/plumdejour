@@ -19,7 +19,19 @@ function App() {
     // Load logs from localStorage on initial render
     const savedLogs = localStorage.getItem("dailyLogs");
     if (savedLogs) {
-      setLogs(JSON.parse(savedLogs));
+      const parsedLogs = JSON.parse(savedLogs);
+      // Handle migration from old string format to new object format
+      const migratedLogs = parsedLogs.map((log) => {
+        if (typeof log === "string") {
+          return {
+            id: Date.now() + Math.random(),
+            text: log,
+            timestamp: new Date().toISOString(),
+          };
+        }
+        return log;
+      });
+      setLogs(migratedLogs);
     }
   }, []);
 
@@ -32,6 +44,8 @@ function App() {
       const newLog = {
         text: input,
         date: new Date().toLocaleDateString(),
+        id: Date.now() + Math.random(),
+        text: input.trim(),
         timestamp: new Date().toISOString(),
       };
       setLogs([...logs, newLog]);
@@ -40,8 +54,10 @@ function App() {
   };
 
   const generateSummary = () => {
-    if (logs.length > 0) {
+    if (logs.length > 0)
       setSummary(logs.map((log) => log.text).join(". ") + ".");
+      const summaryText = logs.map((log) => log.text).join(". ") + ".";
+      setSummary(summaryText);
     } else {
       setSummary("No logs for today.");
     }

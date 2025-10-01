@@ -11,6 +11,16 @@ function LogList({ logs }) {
               </span>
               {typeof log === "object" && log.date && (
                 <span className="text-xs text-gray-500 ml-2 flex-shrink-0">{log.date}</span>
+        <ul className="space-y-3 text-gray-700">
+          {logs.map((log) => (
+            <li key={log.id || log} className="bg-gray-100 p-3 rounded-lg">
+              <div className="text-gray-800">
+                {typeof log === 'string' ? log : log.text}
+              </div>
+              {typeof log === 'object' && log.timestamp && (
+                <div className="text-xs text-gray-500 mt-1">
+                  {new Date(log.timestamp).toLocaleString()}
+                </div>
               )}
             </li>
           ))}
