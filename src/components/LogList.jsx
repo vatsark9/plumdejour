@@ -5,12 +5,17 @@ function LogList({ logs }) {
       {logs.length > 0 ? (
         <ul className="list-disc list-inside space-y-2 text-gray-700">
           {logs.map((log, index) => (
-            <li key={index} className="bg-gray-100 p-3 rounded-lg flex justify-between items-center">
+            <li
+              key={index}
+              className="bg-gray-100 p-3 rounded-lg flex justify-between items-center"
+            >
               <span className="text-gray-800">
                 {typeof log === "string" ? log : log.text}
               </span>
               {typeof log === "object" && log.date && (
-                <span className="text-xs text-gray-500 ml-2 flex-shrink-0">{log.date}</span>
+                <span className="text-xs text-gray-500 ml-2 flex-shrink-0">
+                  {log.date}
+                </span>
               )}
             </li>
           ))}

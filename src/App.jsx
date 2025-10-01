@@ -9,6 +9,7 @@ function App() {
   const [logs, setLogs] = useState([]);
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const maxChars = 200;
 
   useEffect(() => {
@@ -19,14 +20,21 @@ function App() {
     // Load logs from localStorage on initial render
     const savedLogs = localStorage.getItem("dailyLogs");
     if (savedLogs) {
-      setLogs(JSON.parse(savedLogs));
+      try {
+        setLogs(JSON.parse(savedLogs));
+      } catch (error) {
+        console.error("Error parsing saved logs:", error);
+      }
     }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("dailyLogs", JSON.stringify(logs));
-  }, [logs]);
-
+    // Only save to localStorage after initial load is complete
+    if (isLoaded) {
+      localStorage.setItem("dailyLogs", JSON.stringify(logs));
+    }
+  }, [logs, isLoaded]);
   const addLog = () => {
     if (input.trim()) {
       const newLog = {
