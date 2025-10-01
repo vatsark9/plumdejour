@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 function LogList({ logs, updateLog }) {
   const [editingId, setEditingId] = useState(null);
@@ -31,17 +32,28 @@ function LogList({ logs, updateLog }) {
             <li key={log.id || log} className="bg-gray-100 p-3 rounded-lg">
               {editingId === log.id ? (
                 <div className="space-y-2">
+                  <div className="text-sm font-medium text-gray-700 mb-2">
+                    Edit Log (Markdown supported)
+                  </div>
+
                   <textarea
                     value={editText}
                     onChange={(e) => setEditText(e.target.value)}
                     className="w-full p-2 border border-indigo-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-                    rows="3"
+                    rows="4"
                     maxLength="200"
+                    placeholder="Use markdown: **bold**, *italic*, `code`, ## heading, - list"
                   />
+
+                  <div className="text-xs text-gray-500 mb-2">
+                    {200 - editText.length} characters remaining
+                  </div>
+
                   <div className="flex gap-2">
                     <button
                       onClick={() => saveEdit(log.id)}
                       className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition"
+                      disabled={!editText.trim()}
                     >
                       Save
                     </button>
@@ -57,7 +69,9 @@ function LogList({ logs, updateLog }) {
                 <div className="flex justify-between items-start gap-3">
                   <div className="flex-1">
                     <div className="text-gray-800">
-                      {typeof log === "string" ? log : log.text}
+                      <MarkdownRenderer
+                        content={typeof log === "string" ? log : log.text}
+                      />
                     </div>
                     {typeof log === "object" && log.timestamp && (
                       <div className="text-xs text-gray-500 mt-1">
