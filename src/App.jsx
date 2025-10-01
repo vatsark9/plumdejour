@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar.jsx";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
 import LogList from "./components/LogList";
@@ -27,6 +28,7 @@ function App() {
     }
     return [];
   });
+  
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
   const maxChars = 200;
@@ -67,10 +69,7 @@ function App() {
   };
 
   const generateSummary = () => {
-
     if (logs.length > 0){
-
-      setSummary(logs.map((log) => log.text).join(". ") + ".");
       const summaryText = logs.map((log) => log.text).join(". ") + ".";
       setSummary(summaryText);
     } else {
@@ -85,7 +84,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
+      <Navbar />
       <Header />
       <LogInput
         maxChars={maxChars}
@@ -98,13 +98,13 @@ function App() {
         <div className="flex gap-4">
           <button
             onClick={generateSummary}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            className="bg-green-500 dark:bg-green-600 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-700 transition-colors duration-300"
           >
             Generate Summary
           </button>
           <button
             onClick={clearLogs}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
+            className="bg-red-500 dark:bg-red-600 text-white px-4 py-2 rounded hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300 ml-2"
           >
             Clear Logs
           </button>
