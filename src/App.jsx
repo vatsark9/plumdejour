@@ -15,20 +15,28 @@ function App() {
     localStorage.setItem("dailyLogs", JSON.stringify(logs));
   }, [logs]);
 
-  const addLog = () => {
-    if (input.trim() !== "") {
-      setLogs([...logs, input]);
-      setInput("");
-    }
-  };
+<ul>
+  {logs.map((log, index) => (
+    <li
+      key={index}
+      className="px-2 py-1 rounded hover:bg-gray-200 transition"
+    >
+      <span className="font-medium">{log.text}</span>
+      <br />
+      <span className="text-xs text-gray-500">{log.date}</span>
+    </li>
+  ))}
+</ul>
 
-  const generateSummary = () => {
-    if (logs.length > 0) {
-      setSummary(logs.join(". ") + ".");
-    } else {
-      setSummary("No logs for today.");
-    }
-  };
+
+const generateSummary = () => {
+  if (logs.length > 0) {
+    setSummary(logs.map(log => log.text).join(". ") + ".");
+  } else {
+    setSummary("No logs for today.");
+  }
+};
+
 
   const clearLogs = () => {
     setLogs([]);
@@ -43,19 +51,19 @@ function App() {
       <h1>plumdejour</h1>
       <p>Daily log tracker</p>
 
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => {
-          const value = e.target.value;
-          if (value.length <= maxChars) {
-            setInput(value);
-          }
-        }}
-        maxLength={maxChars}
-        placeholder="Enter your log here..."
-        style={{ padding: "8px", width: "250px", marginRight: "8px" }}
-      />
+<input
+  type="text"
+  value={input}
+  onChange={(e) => {
+    if (e.target.value.length <= 200) {
+      setInput(e.target.value);
+    }
+  }}
+  placeholder="Enter your log here..."
+  className="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64"
+/>
+<p className="text-sm text-gray-500">{200 - input.length} characters remaining</p>
+
       <div style={{ fontSize: "12px", color: input.length === maxChars ? "red" : "gray", marginBottom: "8px" }}>
         {maxChars - input.length} characters remaining
 
