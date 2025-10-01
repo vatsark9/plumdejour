@@ -66,6 +66,13 @@ function App() {
     localStorage.removeItem("dailyLogs");
   };
 
+  const deleteLog = (id) => {
+    setLogs(logs.filter((log) => log.id !== id));
+    if (summary) {
+      setSummary("");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5 font-mono">
       <Header />
@@ -75,7 +82,7 @@ function App() {
         setInput={setInput}
         addLog={addLog}
       />
-      <LogList logs={logs} />
+      <LogList logs={logs} deleteLog={deleteLog} />
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
           <button
