@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useEffect } from 'react';
+import ReactPaginate from 'react-paginate';
 
 function LogList({ logs, updateLog }) {
     const [editingId, setEditingId] = useState(null);
@@ -8,8 +9,21 @@ function LogList({ logs, updateLog }) {
     const [filteredLogs, setFilteredLogs] = useState(logs);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [currentPage, setCurrentPage] = useState(0)
 
-    useEffect(() => {
+  const itemsPerPage = 2 ;
+    
+  const pageCount = Math.ceil(filteredLogs.length / itemsPerPage);
+  const offset = currentPage * itemsPerPage;
+  const currentLogs = filteredLogs.slice(offset, offset + itemsPerPage);
+  
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+
+  useEffect(() => {
+    setCurrentPage(0);
+
         const filterLogs = () => {
             const start = startDate ? new Date(startDate) : null;
             const end = endDate ? new Date(endDate) : null;
@@ -96,8 +110,9 @@ function LogList({ logs, updateLog }) {
                 </div>
             </div>
             {filteredLogs.length > 0 ? (
+              <>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
-                    {filteredLogs.map((log, index) => (
+                    {currentLogs.map((log, index) => (
                         <li
                             key={index}
                             className="bg-gray-100 p-3 rounded-lg flex justify-between items-center"
@@ -113,9 +128,29 @@ function LogList({ logs, updateLog }) {
                         </li>
                     ))}
                 </ul>
+                {pageCount > 1 && (
+                        <ReactPaginate
+                            previousLabel="←"
+                            nextLabel="→"
+                            pageCount={pageCount}
+                            onPageChange={handlePageClick}
+                            containerClassName="flex items-center justify-center gap-2 mt-4"
+                            pageClassName="px-3 py-1 rounded hover:bg-gray-100"
+                            pageLinkClassName="text-indigo-600"
+                            previousClassName="px-3 py-1 rounded hover:bg-gray-100"
+                            nextClassName="px-3 py-1 rounded hover:bg-gray-100"
+                            previousLinkClassName="text-indigo-600"
+                            nextLinkClassName="text-indigo-600"
+                            activeClassName="bg-indigo-600"
+                            activeLinkClassName="text-white hover:text-white"
+                            disabledClassName="text-gray-300 hover:bg-transparent cursor-not-allowed"
+                        />
+                    )}
+                    </>
             ) : (
                 <p className="text-gray-500 italic">No logs added yet.</p>
-            )}
+        )}
+        
         </div>
     );
 }
