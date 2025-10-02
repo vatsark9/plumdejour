@@ -60,7 +60,7 @@ function LogInput({ maxChars, input, setInput, addLog }) {
 
       <button
         onClick={addLog}
-        className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition w-full"
+        className="bg-purple-500 text-white px-4 py-2 flex justify-center rounded hover:bg-purple-600 transition  w-[86%]"
         disabled={!input.trim()}
       >
         Add Log

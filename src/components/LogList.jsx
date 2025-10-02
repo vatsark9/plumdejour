@@ -17,6 +17,7 @@ function LogList({ logs, updateLog }) {
   const offset = currentPage * itemsPerPage;
   const currentLogs = filteredLogs.slice(offset, offset + itemsPerPage);
   
+
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
