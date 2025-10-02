@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
+import OpenAI from "openai";
 import LogList from "./components/LogList";
 import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 import "./App.css";
 
 function App() {
+  const client = new OpenAI({
+    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+    dangerouslyAllowBrowser: true,
+  });
+
   const [logs, setLogs] = useState(() => {
     // Initialize state with data from localStorage
     const savedLogs = localStorage.getItem("dailyLogs");
@@ -27,8 +33,10 @@ function App() {
     }
     return [];
   });
+
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
+  const [loading, setLoading] = useState(false);
   const maxChars = 200;
 
   useEffect(() => {
@@ -66,13 +74,29 @@ function App() {
     }
   };
 
-  const generateSummary = () => {
+  const generateSummary = async () => {
+    if (logs.length > 0) {
+      const combinedLogs = logs.map((log) => log.text).join("\n");
 
-    if (logs.length > 0){
+      try {
+        setLoading(true);
+        const res = await client.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "user",
+              content: `Summarize these logs into a short paragraph:\n${combinedLogs}`,
+            },
+          ],
+        });
 
-      setSummary(logs.map((log) => log.text).join(". ") + ".");
-      const summaryText = logs.map((log) => log.text).join(". ") + ".";
-      setSummary(summaryText);
+        setSummary(res.choices[0].message.content);
+      } catch (err) {
+        console.error(err);
+        setSummary("Error generating summary. Please try again.");
+      } finally {
+        setLoading(false);
+      }
     } else {
       setSummary("No logs for today.");
     }
@@ -98,17 +122,55 @@ function App() {
         <div className="flex gap-4">
           <button
             onClick={generateSummary}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            disabled={loading}
+            className={`px-4 py-2 rounded transition ${
+              loading
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-green-500 text-white hover:bg-green-600"
+            }`}
           >
-            Generate Summary
+            {loading ? "Summarizing..." : "Generate Summary"}
           </button>
+
           <button
             onClick={clearLogs}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
+            disabled={loading}
+            className={`px-4 py-2 rounded transition ml-2 ${
+              loading
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-red-500 text-white hover:bg-red-600"
+            }`}
           >
             Clear Logs
           </button>
         </div>
+
+        {loading && (
+          <div className="flex items-center justify-center mt-4 text-gray-600">
+            <svg
+              className="animate-spin h-5 w-5 mr-2 text-gray-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              ></path>
+            </svg>
+            Generating summary...
+          </div>
+        )}
+
         <Summary summary={summary} />
       </div>
       <Footer />
