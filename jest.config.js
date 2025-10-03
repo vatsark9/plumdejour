@@ -8,7 +8,7 @@ export default {
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(marked|recharts)/)'
+    'node_modules/(?!(marked)/)',
   ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.(js|jsx)',
