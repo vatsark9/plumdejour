@@ -7,7 +7,8 @@ const DateLogViewer = ({
   updateLog, 
   onTagClick,
   searchTerm = '',
-  selectedTags = []
+  selectedTags = [],
+  onEditLog
 }) => {
   if (!selectedDate) {
     return (
@@ -131,10 +132,11 @@ const DateLogViewer = ({
                     })}
                   </span>
                   <button
-                    onClick={() => updateLog && updateLog(log.id, log.text)}
-                    className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
+                    onClick={() => onEditLog && onEditLog(log)}
+                    className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+                    title="Edit this log"
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
                 </div>
               )}

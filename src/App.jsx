@@ -42,6 +42,7 @@ export default function App() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'calendar'
   const [selectedDate, setSelectedDate] = useState(null);
+  const [editingLog, setEditingLog] = useState(null); // For editing existing logs
   const maxChars = 200;
 
   // Filter logs based on search and tags
@@ -72,6 +73,33 @@ export default function App() {
         setSelectedDate(new Date());
       }
     }
+  };
+
+  const startEditing = (log) => {
+    setEditingLog(log);
+    setInput(log.text);
+  };
+
+  const saveEdit = () => {
+    if (editingLog && input.trim()) {
+      setLogs(logs.map(log => 
+        log.id === editingLog.id 
+          ? { ...log, text: input.trim(), timestamp: new Date().toISOString() }
+          : log
+      ));
+      setEditingLog(null);
+      setInput("");
+      
+      // Clear summary if it exists
+      if (summary) {
+        setSummary("");
+      }
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingLog(null);
+    setInput("");
   };
 
   const updateLog = (id, newText) => {
@@ -169,6 +197,9 @@ export default function App() {
         setInput={setInput}
         addLog={addLog}
         logs={logs}
+        editingLog={editingLog}
+        saveEdit={saveEdit}
+        cancelEdit={cancelEdit}
       />
       
       {/* Conditional Rendering based on view mode */}
@@ -179,6 +210,7 @@ export default function App() {
           searchTerm={searchTerm}
           selectedTags={selectedTags}
           onTagClick={handleTagClick}
+          onEditLog={startEditing}
         />
       ) : (
         <>
@@ -196,6 +228,7 @@ export default function App() {
             onTagClick={handleTagClick}
             searchTerm={searchTerm}
             selectedTags={selectedTags}
+            onEditLog={startEditing}
           />
         </>
       )}
