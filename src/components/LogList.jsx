@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { useEffect } from 'react';
+import ReactPaginate from 'react-paginate';
 
 function LogList({ logs, updateLog, deleteLog }) {
     const [editingId, setEditingId] = useState(null);
@@ -10,7 +11,6 @@ function LogList({ logs, updateLog, deleteLog }) {
     const [endDate, setEndDate] = useState('');
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
-    useEffect(() => {
         const filterLogs = () => {
             const start = startDate ? new Date(startDate) : null;
             const end = endDate ? new Date(endDate) : null;
@@ -195,9 +195,29 @@ function LogList({ logs, updateLog, deleteLog }) {
                         </li>
                     ))}
                 </ul>
+                {pageCount > 1 && (
+                        <ReactPaginate
+                            previousLabel="←"
+                            nextLabel="→"
+                            pageCount={pageCount}
+                            onPageChange={handlePageClick}
+                            containerClassName="flex items-center justify-center gap-2 mt-4"
+                            pageClassName="px-3 py-1 rounded hover:bg-gray-100"
+                            pageLinkClassName="text-indigo-600"
+                            previousClassName="px-3 py-1 rounded hover:bg-gray-100"
+                            nextClassName="px-3 py-1 rounded hover:bg-gray-100"
+                            previousLinkClassName="text-indigo-600"
+                            nextLinkClassName="text-indigo-600"
+                            activeClassName="bg-indigo-600"
+                            activeLinkClassName="text-white hover:text-white"
+                            disabledClassName="text-gray-300 hover:bg-transparent cursor-not-allowed"
+                        />
+                    )}
+                    </>
             ) : (
                 <p className="text-gray-500 italic">No logs added yet.</p>
-            )}
+        )}
+        
         </div>
     );
 }
