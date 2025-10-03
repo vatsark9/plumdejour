@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import LogInput from "./components/LogInput";
 import LogList from "./components/LogList";
 import Summary from "./components/Summary";
+import WeeklySummaryGraph from "./components/WeeklySummaryGraph";
 import Footer from "./components/Footer";
 import "./App.css";
 
@@ -111,6 +112,7 @@ function App() {
         </div>
         <Summary summary={summary} />
       </div>
+      <WeeklySummaryGraph logs={logs} />
       <Footer />
     </div>
   );
