@@ -7,6 +7,9 @@ export default {
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(marked)/)',
+  ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.(js|jsx)',
     '<rootDir>/src/**/*.(test|spec).(js|jsx)'

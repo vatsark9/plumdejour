@@ -66,6 +66,13 @@ function App() {
     }
   };
 
+  const deleteLog = (id) => {
+    setLogs(logs.filter((log) => log.id !== id));
+    if (summary) {
+      setSummary("");
+    }
+  };
+
   const generateSummary = () => {
 
     if (logs.length > 0){
@@ -93,7 +100,7 @@ function App() {
         setInput={setInput}
         addLog={addLog}
       />
-      <LogList logs={logs} updateLog={updateLog} />
+      <LogList logs={logs} updateLog={updateLog} deleteLog={deleteLog} />
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
           <button
