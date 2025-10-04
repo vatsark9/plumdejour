@@ -1,9 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 
 function LogList({ logs, updateLog }) {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
+  const [filteredLogs, setFilteredLogs] = useState(logs);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
 
+  const itemsPerPage = 10;
+
+  // Pagination calculations
+  const pageCount = Math.ceil(filteredLogs.length / itemsPerPage);
+  const offset = currentPage * itemsPerPage;
+  const currentLogs = filteredLogs.slice(offset, offset + itemsPerPage);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  // Filter logs by date range
+  useEffect(() => {
+    setCurrentPage(0);
+
+    const filterLogsByDate = () => {
+      const start = startDate ? new Date(startDate) : null;
+      const end = endDate ? new Date(endDate) : null;
+      if (end) end.setHours(23, 59, 59, 999);
+
+      const filtered = logs.filter((log) => {
+        if (!startDate && !endDate) return true;
+        if (!log.date) return false;
+
+        const logDate = new Date(log.date);
+        if (start && logDate < start) return false;
+        if (end && logDate > end) return false;
+        return true;
+      });
+
+      setFilteredLogs(filtered);
+    };
+
+    filterLogsByDate();
+  }, [logs, startDate, endDate]);
+
+  const clearFilters = () => {
+    setStartDate("");
+    setEndDate("");
+  };
+
+  // Edit functions
   const startEdit = (log) => {
     setEditingId(log.id);
     setEditText(typeof log === "string" ? log : log.text);
@@ -25,88 +72,63 @@ function LogList({ logs, updateLog }) {
   return (
     <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
       <h2 className="text-xl font-semibold text-indigo-600 mb-4">Your Logs</h2>
-      {logs.length > 0 ? (
-        <ul className="space-y-3 text-gray-700">
-          {logs.map((log, index) => (
-            <li key={log.id || index} className="bg-gray-100 p-3 rounded-lg flex justify-between items-center">
-              <span className="text-gray-800">
 
-                {typeof log === 'string' ? log : log.text}
-              </span>
-              {typeof log === 'object' && log.timestamp && (
-                <span className="text-xs text-gray-500 ml-2 flex-shrink-0">
-                  {new Date(log.timestamp).toLocaleString()}
-                </span>
-
-                {typeof log === "string" ? log : log.text}
-              </span>
-              {typeof log === "object" && log.date && (
-                <span className="text-xs text-gray-500 ml-2 flex-shrink-0">{log.date}</span>
-        <ul className="space-y-3 text-gray-700">
-          {logs.map((log) => (
-            <li key={log.id || log} className="bg-gray-100 p-3 rounded-lg">
-              {editingId === log.id ? (
-                <div className="space-y-2">
-                  <textarea
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                    className="w-full p-2 border border-indigo-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-                    rows="3"
-                    maxLength="200"
-                  />
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => saveEdit(log.id)}
-                      className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600 transition"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex justify-between items-start gap-3">
-                  <div className="flex-1">
-                    <div className="text-gray-800">
-                      {typeof log === "string" ? log : log.text}
-                    </div>
-                    {typeof log === "object" && log.timestamp && (
-                      <div className="text-xs text-gray-500 mt-1">
-                        {new Date(log.timestamp).toLocaleString()}
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => startEdit(log)}
-                    className="text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 p-2 rounded transition flex-shrink-0"
-                    aria-label="Edit log"
-                    title="Edit this log"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                  </button>
-                </div>
-
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500 italic">No logs added yet.</p>
+      {/* Date Filter Section */}
+      {logs.length > 0 && (
+        <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg mb-4">
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+            aria-label="Start Date"
+          />
+          <span className="text-gray-500">-</span>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+            aria-label="End Date"
+          />
+          <button
+            onClick={clearFilters}
+            className="px-3 py-2 text-sm text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300"
+          >
+            Clear
+          </button>
+        </div>
       )}
-    </div>
-  );
-}
 
-export default LogList;
+      {/* Logs Display */}
+      {filteredLogs.length > 0 ? (
+        <>
+          <ul className="space-y-3 text-gray-700">
+            {currentLogs.map((log) => (
+              <li
+                key={log.id || log}
+                className="bg-gray-100 p-3 rounded-lg flex flex-col sm:flex-row justify-between items-start gap-2"
+              >
+                {editingId === log.id ? (
+                  <div className="w-full space-y-2">
+                    <textarea
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                      className="w-full p-2 border border-indigo-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                      rows="3"
+                      maxLength="200"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => saveEdit(log.id)}
+                        className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={cancelEdit}
+                        className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600 transition"
+                      >
+                        Cancel
+                      </button>
+                    </div>
