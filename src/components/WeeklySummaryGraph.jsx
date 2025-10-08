@@ -60,7 +60,9 @@ function WeeklySummaryGraph({ logs }) {
 
   return (
     <div className="mt-6 bg-white shadow-md rounded-2xl p-6">
-      <h2 className="text-xl font-semibold text-indigo-600 mb-4">Weekly Summary</h2>
+      <h2 className="text-xl font-semibold text-indigo-600 mb-4">
+        📊 Weekly Summary
+      </h2>
       <div className="mb-4">
         <p className="text-sm text-gray-600">
           Total logs this week: <span className="font-semibold text-indigo-600">{totalLogs}</span>

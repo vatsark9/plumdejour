@@ -29,7 +29,7 @@ const SearchAndFilter = ({
         {/* Search Input */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Search logs
+            🔍 Search logs
           </label>
           <input
             type="text"
@@ -64,7 +64,7 @@ const SearchAndFilter = ({
         {allTags.length > 0 && (
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Filter by tags
+              🏷️ Filter by tags
             </label>
             <div className="flex flex-wrap gap-2">
               {allTags.map(tag => (

@@ -148,7 +148,12 @@ function LogList({ logs, updateLog }) {
                     )}
                     </>
             ) : (
+                // Replace empty state paragraph:
+                <div className="text-center py-8">
+                <div className="text-6xl mb-4">🐻</div>
                 <p className="text-gray-500 italic">No logs added yet.</p>
+                <p className="text-gray-400 text-sm mt-2">Start your journal journey! 📖</p>
+                </div>
         )}
         
         </div>
