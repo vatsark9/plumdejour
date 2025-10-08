@@ -1,8 +1,33 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import MarkdownRenderer from "./MarkdownRenderer";
 
-function LogInput({ maxChars, input, setInput, addLog }) {
+function LogInput({ maxChars, input, setInput, addLog, setShowAuthModal }) {
   const [showPreview, setShowPreview] = useState(false);
+  const { user } = useAuth();
+
+  const handleAddLog = (e) => {
+    e.preventDefault();
+    console.log('Add Log clicked', { user, input }); // Debug log
+    
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    if (!input.trim()) {
+      return;
+    }
+
+    try {
+      addLog();
+      setShowPreview(false);
+      // console.log('Log added successfully'); // Debug log
+    } catch (error) {
+      // console.error('Error adding log:', error); // Debug log
+    }
+  };
+
 
   return (
     <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
@@ -42,9 +67,16 @@ function LogInput({ maxChars, input, setInput, addLog }) {
             }
           }}
           maxLength={maxChars}
-          placeholder="Enter your log here...&#10;&#10;Try markdown:&#10;**bold text**&#10;*italic text*&#10;`inline code`&#10;## Heading&#10;- List item"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+          placeholder={
+            user
+              ? "Enter your log here...\n\nTry markdown:\n**bold text**\n*italic text*\n`inline code`\n## Heading\n- List item"
+              : "Please login to add logs..."
+          }
+          className={`w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none ${
+            !user && "bg-gray-50 cursor-not-allowed"
+          }`}
           rows="4"
+          disabled={!user}
         />
       )}
 
@@ -59,11 +91,15 @@ function LogInput({ maxChars, input, setInput, addLog }) {
       </div>
 
       <button
-        onClick={addLog}
-        className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition w-full"
-        disabled={!input.trim()}
+        onClick={handleAddLog}
+        className={`px-4 py-2 rounded transition w-full hover:cursor-pointer ${
+          user && input.trim()
+            ? "bg-purple-500 text-white hover:bg-purple-600"
+            : "bg-purple-300 text-white"
+        }`}
+        disabled={!input.trim() || !user}
       >
-        Add Log
+        {user ? "Add Log" : "Login to Add Log"}
       </button>
     </div>
   );
