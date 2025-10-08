@@ -1,1 +1,569 @@
-@import "tailwindcss";
+/* ============================================
+   INDEX.CSS - Main Styles
+   ============================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root variables - Cozy Bear Theme */
+:root {
+  --cream: #fef3e2;
+  --beige: #f5e6d3;
+  --light-brown: #d4a574;
+  --coffee: #8b6f47;
+  --dark-coffee: #6b5839;
+  --soft-pink: #ffd4d4;
+  --soft-blue: #d4e4ff;
+  --soft-green: #d4ffd4;
+  --soft-yellow: #fff4d4;
+  --text-primary: #3d2817;
+  --text-secondary: #6b5839;
+  --shadow-soft: rgba(139, 111, 71, 0.15);
+}
+
+/* Custom Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Patrick+Hand&family=Quicksand:wght@400;600;700&display=swap');
+
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Quicksand', 'Comic Sans MS', cursive, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #fef3e2 0%, #f5e6d3 100%);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle doodle background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 212, 212, 0.1) 0%, transparent 2%),
+    radial-gradient(circle at 80% 20%, rgba(212, 228, 255, 0.1) 0%, transparent 2%),
+    radial-gradient(circle at 60% 70%, rgba(212, 255, 212, 0.1) 0%, transparent 2%);
+  background-size: 200px 200px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+  animation: float-bg 30s ease-in-out infinite;
+}
+
+@keyframes float-bg {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, 20px); }
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* Enhanced scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--beige);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--light-brown) 0%, var(--coffee) 100%);
+  border-radius: 20px;
+  border: 2px solid var(--beige);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--coffee) 0%, var(--dark-coffee) 100%);
+}
+
+::selection {
+  background: var(--soft-pink);
+  color: var(--text-primary);
+}
+
+/* Typography - Cute handwritten style */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Caveat', cursive;
+  color: var(--coffee);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ============================================
+   COMPONENT-SPECIFIC OVERRIDES
+   ============================================ */
+
+/* Navbar - Cute style */
+nav {
+  font-family: 'Patrick Hand', cursive !important;
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f0 100%) !important;
+  border-bottom: 3px solid var(--coffee) !important;
+  box-shadow: 0 4px 12px var(--shadow-soft) !important;
+}
+
+nav h1 {
+  font-family: 'Caveat', cursive !important;
+  font-size: 1.8rem !important;
+  color: var(--coffee) !important;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+nav h1::before {
+  content: '🐻 ';
+  font-size: 1.5rem;
+}
+
+nav button {
+  border-radius: 15px !important;
+  border: 2px solid var(--light-brown) !important;
+  transition: all 0.2s ease !important;
+}
+
+nav button:hover {
+  transform: translateY(-2px) rotate(-2deg);
+  box-shadow: 3px 3px 0 var(--beige);
+}
+
+/* ViewToggle - Fix icon sizing */
+.view-toggle-container,
+[class*="max-w-md"] {
+  background: linear-gradient(135deg, #fffef9 0%, #fef9f0 100%) !important;
+  border: 3px solid var(--coffee) !important;
+  border-radius: 20px !important;
+  box-shadow: 4px 4px 0 var(--beige) !important;
+}
+
+/* Fix SVG icon sizes in buttons */
+button svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+button span {
+  font-family: 'Patrick Hand', cursive !important;
+}
+
+/* View Toggle Buttons */
+.view-mode-button,
+button[class*="flex-1"] {
+  font-family: 'Patrick Hand', cursive !important;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  border: 2px solid transparent !important;
+}
+
+button[class*="bg-indigo-500"] {
+  background: linear-gradient(135deg, var(--coffee) 0%, var(--dark-coffee) 100%) !important;
+  border: 2px solid var(--dark-coffee) !important;
+  box-shadow: 3px 3px 0 var(--beige) !important;
+}
+
+button[class*="bg-indigo-500"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 4px 4px 0 var(--light-brown) !important;
+}
+
+/* LogInput - Cute textarea */
+textarea {
+  font-family: 'Patrick Hand', cursive !important;
+  background: #fffef9 !important;
+  border: 3px solid var(--light-brown) !important;
+  border-radius: 15px !important;
+  box-shadow: 
+    inset 2px 2px 6px rgba(212, 165, 116, 0.1),
+    3px 3px 0 var(--beige) !important;
+  line-height: 1.8 !important;
+  font-size: 1rem !important;
+}
+
+textarea:focus {
+  border-color: var(--coffee) !important;
+  outline: none !important;
+  box-shadow: 
+    inset 2px 2px 6px rgba(212, 165, 116, 0.1),
+    4px 4px 0 var(--light-brown) !important;
+}
+
+textarea::placeholder {
+  color: var(--light-brown) !important;
+  opacity: 0.7;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="date"],
+input[type="search"] {
+  font-family: 'Quicksand', sans-serif !important;
+  background: #ffffff !important;
+  border: 3px solid var(--light-brown) !important;
+  border-radius: 12px !important;
+  box-shadow: 3px 3px 0 var(--beige) !important;
+  transition: all 0.2s ease !important;
+}
+
+input:focus {
+  border-color: var(--coffee) !important;
+  outline: none !important;
+  box-shadow: 4px 4px 0 var(--light-brown) !important;
+}
+
+/* Buttons - Cute style */
+button {
+  font-family: 'Patrick Hand', cursive !important;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+/* Primary buttons */
+button[class*="bg-purple-500"],
+button[class*="bg-indigo-600"] {
+  background: linear-gradient(135deg, var(--coffee) 0%, var(--dark-coffee) 100%) !important;
+  border: 3px solid var(--dark-coffee) !important;
+  border-radius: 20px !important;
+  box-shadow: 4px 4px 0 var(--beige) !important;
+}
+
+button[class*="bg-purple-500"]:hover,
+button[class*="bg-indigo-600"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 5px 5px 0 var(--light-brown) !important;
+}
+
+button[class*="bg-purple-500"]:active,
+button[class*="bg-indigo-600"]:active {
+  transform: translateY(0) !important;
+  box-shadow: 3px 3px 0 var(--beige) !important;
+}
+
+/* Secondary buttons */
+button[class*="bg-gray-200"] {
+  background: var(--beige) !important;
+  border: 2px solid var(--light-brown) !important;
+  border-radius: 15px !important;
+  color: var(--text-secondary) !important;
+}
+
+button[class*="bg-gray-200"]:hover {
+  background: var(--light-brown) !important;
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+/* Cards - Sticky note style
+[class*="bg-white"][class*="shadow"] {
+  background: linear-gradient(135deg, #fffef9 0%, #fef9f0 100%) !important;
+  border: 3px solid var(--coffee) !important;
+  border-radius: 20px !important;
+  box-shadow: 4px 4px 0 var(--beige), 0 8px 16px var(--shadow-soft) !important;
+  transition: all 0.3s ease !important;
+} */
+
+/* Cards - Sticky note style */
+[class*="bg-white"][class*="shadow"] {
+  background: linear-gradient(135deg, #fffef9 0%, #fef9f0 100%) !important;
+  border: 3px solid var(--coffee) !important;
+  border-radius: 20px !important;
+  box-shadow: 4px 4px 0 var(--beige), 0 8px 16px var(--shadow-soft) !important;
+  transition: all 0.3s ease !important;
+  margin-bottom: 2rem !important;
+  padding: 2rem !important;
+}
+
+[class*="bg-white"][class*="shadow"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0 var(--light-brown), 0 12px 24px var(--shadow-soft) !important;
+}
+
+/* Log entries */
+[class*="bg-gray-100"] {
+  background: linear-gradient(135deg, #fffef9 0%, #fef9f0 100%) !important;
+  border: 2px solid var(--light-brown) !important;
+  border-radius: 12px !important;
+  box-shadow: 2px 2px 0 var(--beige) !important;
+  transition: all 0.2s ease !important;
+}
+
+[class*="bg-gray-100"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 var(--light-brown) !important;
+}
+
+/* Calendar specific */
+.calendar-cell,
+button[class*="w-10"][class*="h-10"] {
+  font-family: 'Patrick Hand', cursive !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 600 !important;
+}
+
+/* Calendar today indicator */
+button[class*="bg-indigo-100"] {
+  background: var(--soft-blue) !important;
+  border: 2px dashed var(--coffee) !important;
+  font-weight: 700 !important;
+}
+
+/* Calendar selected date */
+button[class*="bg-indigo-500"][class*="text-white"] {
+  background: linear-gradient(135deg, var(--coffee) 0%, var(--dark-coffee) 100%) !important;
+  box-shadow: 3px 3px 0 var(--beige) !important;
+}
+
+/* Tag buttons */
+button[class*="bg-blue-100"],
+button[class*="bg-indigo-100"] {
+  font-family: 'Patrick Hand', cursive !important;
+  border-radius: 20px !important;
+  border: 2px solid var(--light-brown) !important;
+  background: var(--soft-blue) !important;
+  color: var(--coffee) !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease !important;
+}
+
+button[class*="bg-blue-100"]:hover,
+button[class*="bg-indigo-100"]:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+button[class*="bg-blue-500"] {
+  background: linear-gradient(135deg, var(--coffee) 0%, var(--dark-coffee) 100%) !important;
+  border: 2px solid var(--dark-coffee) !important;
+  box-shadow: 2px 2px 0 var(--beige) !important;
+}
+
+/* Headings with emojis */
+h2[class*="text-indigo-600"],
+h3[class*="text-indigo-600"] {
+  font-family: 'Caveat', cursive !important;
+  color: var(--coffee) !important;
+  font-size: 1.8rem !important;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Markdown content */
+.markdown-content {
+  font-family: 'Patrick Hand', cursive !important;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  font-family: 'Caveat', cursive !important;
+  color: var(--coffee);
+  margin: 1em 0 0.5em;
+}
+
+.markdown-content strong {
+  color: var(--dark-coffee);
+  background: linear-gradient(135deg, var(--soft-yellow) 0%, transparent 100%);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.markdown-content code {
+  background: rgba(212, 165, 116, 0.15);
+  border: 1px dashed var(--light-brown);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.markdown-content pre {
+  background: rgba(255, 254, 249, 0.9);
+  border: 2px dashed var(--coffee);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 2rem;
+  margin: 1rem 0;
+}
+
+.markdown-content li::marker {
+  color: var(--coffee);
+}
+
+.markdown-content a {
+  color: var(--coffee);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  transition: all 0.2s ease;
+}
+
+.markdown-content a:hover {
+  color: var(--dark-coffee);
+  transform: translateY(-1px);
+}
+
+/* Preview section */
+[class*="bg-gray-50"] {
+  background: rgba(255, 254, 249, 0.9) !important;
+  border: 2px dashed var(--light-brown) !important;
+  border-radius: 12px !important;
+}
+
+/* Filter badges */
+span[class*="bg-yellow-100"] {
+  background: var(--soft-yellow) !important;
+  color: var(--dark-coffee) !important;
+  border: 2px solid var(--light-brown) !important;
+  border-radius: 12px !important;
+  font-family: 'Patrick Hand', cursive !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Pagination */
+.pagination-container a {
+  font-family: 'Patrick Hand', cursive !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Graph container */
+[class*="recharts"] {
+  font-family: 'Patrick Hand', cursive !important;
+}
+
+/* Empty state */
+[class*="text-gray-500"][class*="italic"] {
+  font-family: 'Patrick Hand', cursive !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Decorative elements */
+.deco-corner::before {
+  content: '✨';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 1.2rem;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.5; transform: scale(1.2) rotate(20deg); }
+}
+
+/* Dark mode overrides */
+.dark {
+  background: linear-gradient(135deg, #2d2416 0%, #3d2817 100%);
+}
+
+.dark body::before {
+  opacity: 0.3;
+}
+
+.dark [class*="bg-white"] {
+  background: linear-gradient(135deg, #3d2817 0%, #4a3220 100%) !important;
+}
+
+.dark [class*="text-gray-900"] {
+  color: var(--beige) !important;
+}
+
+.dark input,
+.dark textarea {
+  background: rgba(61, 40, 23, 0.5) !important;
+  border-color: var(--light-brown) !important;
+  color: var(--beige) !important;
+}
+
+.dark button[class*="bg-indigo-500"] {
+  background: linear-gradient(135deg, var(--light-brown) 0%, var(--coffee) 100%) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  nav h1 {
+    font-size: 1.4rem !important;
+  }
+  
+  h2[class*="text-indigo-600"],
+  h3[class*="text-indigo-600"] {
+    font-size: 1.5rem !important;
+  }
+  
+  button svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  [class*="bg-white"][class*="shadow"] {
+    box-shadow: 3px 3px 0 var(--beige), 0 6px 12px var(--shadow-soft) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  nav h1::before {
+    font-size: 1.2rem;
+  }
+  
+  button {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px dashed var(--coffee) !important;
+  outline-offset: 3px !important;
+}
+
+/* Print styles */
+@media print {
+  body::before {
+    display: none;
+  }
+  
+  button {
+    display: none;
+  }
+  
+  [class*="shadow"] {
+    box-shadow: none !important;
+  }
+}

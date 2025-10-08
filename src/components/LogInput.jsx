@@ -6,9 +6,10 @@ function LogInput({ maxChars, input, setInput, addLog }) {
 
   return (
     <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
-      <div className="flex justify-between items-center mb-2">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 cute-card">
+        {/* Add emoji to the label */}
         <span className="text-sm font-medium text-gray-700">
-          Add New Log (Markdown supported)
+          📝 Add New Log (Markdown supported)
         </span>
         <button
           onClick={() => setShowPreview(!showPreview)}

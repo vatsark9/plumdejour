@@ -132,7 +132,7 @@ const Calendar = ({
         
         <div className="text-center">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {getMonthName(currentMonth)} {currentMonth.getFullYear()}
+            📅 {getMonthName(currentMonth)} {currentMonth.getFullYear()}
           </h3>
           <button
             onClick={goToToday}
