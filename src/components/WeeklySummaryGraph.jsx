@@ -1,7 +1,9 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useAuth } from '../context/AuthContext';
 
 function WeeklySummaryGraph({ logs }) {
-  
+  const { user } = useAuth();
+
   const getLastSevenDays = () => {
     const days = [];
     for (let i = 6; i >= 0; i--) {
@@ -30,7 +32,7 @@ function WeeklySummaryGraph({ logs }) {
 
     
     logs.forEach(log => {
-      if (log.timestamp) {
+      if (log.timestamp && log.userId === user?.id) {
         const logDate = new Date(log.timestamp).toISOString().split('T')[0];
         if (logCountByDate.hasOwnProperty(logDate)) {
           logCountByDate[logDate]++;
@@ -49,7 +51,18 @@ function WeeklySummaryGraph({ logs }) {
   const data = processLogsData();
   const totalLogs = data.reduce((sum, day) => sum + day.logs, 0);
 
-  if (logs.length === 0) {
+  // Show login prompt if no user is authenticated
+  if (!user) {
+    return (
+      <div className="mt-6 bg-white shadow-md rounded-2xl p-6">
+        <h2 className="text-xl font-semibold text-indigo-600 mb-4">Weekly Summary</h2>
+        <p className="text-gray-500 text-center py-8">Please login to view your weekly summary</p>
+      </div>
+    );
+  }
+
+  // Show no logs message if authenticated user has no logs
+  if (logs.length === 0 || totalLogs === 0) {
     return (
       <div className="mt-6 bg-white shadow-md rounded-2xl p-6">
         <h2 className="text-xl font-semibold text-indigo-600 mb-4">Weekly Summary</h2>
