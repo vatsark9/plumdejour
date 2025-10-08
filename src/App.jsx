@@ -14,6 +14,7 @@ import Summary from "./components/Summary";
 import WeeklySummaryGraph from "./components/WeeklySummaryGraph";
 import Footer from "./components/Footer";
 import { filterLogs } from "./utils/tagUtils";
+import { exportLogsAsCsv } from "./utils/csvUtils";
 import "./App.css";
 
 export default function App() {
@@ -126,6 +127,11 @@ export default function App() {
     localStorage.removeItem("dailyLogs");
   };
 
+  const exportAllLogs = () => {
+    if (!logs || logs.length === 0) return;
+    exportLogsAsCsv(logs, "daily-logs.csv");
+  };
+
   const handleTagClick = (tag) => {
     // Add tag to selected tags if not already selected
     if (!selectedTags.includes(tag.toLowerCase())) {
@@ -230,6 +236,13 @@ export default function App() {
                         }
                       >
                         {getSummaryButtonText()}
+                      </button>
+                      <button
+                        onClick={exportAllLogs}
+                        className="bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300"
+                        title="Download all logs as CSV"
+                      >
+                        Export CSV
                       </button>
                       <button
                         onClick={clearLogs}
