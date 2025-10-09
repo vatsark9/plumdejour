@@ -149,7 +149,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
       <Navbar />
-      <Header />
+      <Header logs={logs} />
       
       {/* View Toggle */}
       <ViewToggle currentView={viewMode} onViewChange={handleViewChange} />
@@ -204,7 +204,7 @@ export default function App() {
         <div className="flex gap-4">
           <button
             onClick={generateSummary}
-            className="bg-green-500 dark:bg-green-600 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-700 transition-colors duration-300"
+            className="summary"
             title={
               viewMode === 'calendar' && selectedDate
                 ? `Generate summary from logs on ${selectedDate.toLocaleDateString()}`
