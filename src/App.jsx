@@ -149,7 +149,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
       <Navbar />
-      <Header />
+      <Header logs={logs} />
       
       {/* View Toggle */}
       <ViewToggle currentView={viewMode} onViewChange={handleViewChange} />
