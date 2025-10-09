@@ -1,5 +1,6 @@
 import React from "react";
 import ExportCsvButton from "./ExportCsvButton";
+import ExportPdfButton from "./ExportPdfButton";
 
 export default function Header(props) {
   // props.logs will be used if provided
@@ -10,6 +11,7 @@ export default function Header(props) {
 
       <div className="header-actions">
         <ExportCsvButton logs={props.logs} />
+        <ExportPdfButton logs={props.logs} />
       </div>
     </header>
   );
