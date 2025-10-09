@@ -32,7 +32,7 @@ function WeeklySummaryGraph({ logs }) {
     logs.forEach(log => {
       if (log.timestamp) {
         const logDate = new Date(log.timestamp).toISOString().split('T')[0];
-        if (logCountByDate.hasOwnProperty(logDate)) {
+        if (Object.prototype.hasOwnProperty.call(logCountByDate, logDate)) {
           logCountByDate[logDate]++;
         }
       }
@@ -95,7 +95,7 @@ function WeeklySummaryGraph({ logs }) {
                 borderRadius: '8px',
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}
-              formatter={(value, name) => [value, 'Logs']}
+              formatter={(value) => [value, 'Logs']}
               labelFormatter={(label) => `${label}`}
             />
             <Line 
