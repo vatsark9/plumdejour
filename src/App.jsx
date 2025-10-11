@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
@@ -232,10 +232,17 @@ useEffect(() => {
     return 'Generate Summary';
   };
 
+  // Delete log by index (or use a unique id if available)
+  const handleDeleteLog = (index) => {
+    const updatedLogs = logs.filter((_, i) => i !== index);
+    setLogs(updatedLogs);
+    localStorage.setItem("logs", JSON.stringify(updatedLogs));
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
       <Navbar />
-      <Header />
+      <Header logs={logs} />
       
       {/* View Toggle */}
       <ViewToggle currentView={viewMode} onViewChange={handleViewChange} />
@@ -265,6 +272,7 @@ useEffect(() => {
           searchTerm={searchTerm}
           selectedTags={selectedTags}
           onTagClick={handleTagClick}
+          onDeleteLog={handleDeleteLog}
         />
       ) : (
         <>
@@ -290,7 +298,7 @@ useEffect(() => {
         <div className="flex gap-4">
           <button
             onClick={generateSummary}
-            className="bg-green-500 dark:bg-green-600 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-700 transition-colors duration-300"
+            className="summary"
             title={
               viewMode === 'calendar' && selectedDate
                 ? `Generate summary from logs on ${selectedDate.toLocaleDateString()}`

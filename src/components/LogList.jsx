@@ -1,10 +1,8 @@
-
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
-function LogList({ logs, updateLog }) {
-    const [editingId, setEditingId] = useState(null);
+function LogList({ logs, updateLog, onDeleteLog }) {
     const [editText, setEditText] = useState('');
     const [filteredLogs, setFilteredLogs] = useState(logs);
     const [startDate, setStartDate] = useState('');
@@ -56,22 +54,23 @@ function LogList({ logs, updateLog }) {
     };
 
     const startEdit = (log) => {
-        setEditingId(log.id);
         setEditText(typeof log === 'string' ? log : log.text);
     };
 
     const saveEdit = (id) => {
         if (editText.trim()) {
             updateLog(id, editText.trim());
-            setEditingId(null);
             setEditText('');
         }
     };
 
     const cancelEdit = () => {
-        setEditingId(null);
         setEditText('');
     };
+
+    if (!logs || logs.length === 0) {
+        return <p>No logs yet.</p>;
+    }
 
     return (
         <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
@@ -126,6 +125,13 @@ function LogList({ logs, updateLog }) {
                                     {log.date}
                                 </span>
                             )}
+                            <button
+                                className="ml-4 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                                onClick={() => onDeleteLog(index)}
+                                aria-label="Delete log"
+                            >
+                                Delete
+                            </button>
                         </li>
                     ))}
                 </ul>
