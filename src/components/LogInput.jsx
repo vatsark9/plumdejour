@@ -1,39 +1,26 @@
 import { useState } from "react";
-import MarkdownRenderer from "./MarkdownRenderer";
+import { motion } from "framer-motion";
 
 function LogInput({ maxChars, input, setInput, addLog }) {
-  const [showPreview, setShowPreview] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && input.trim()) {
+      addLog();
+    }
+  };
 
   return (
-    <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-medium text-gray-700">
-          Add New Log (Markdown supported)
-        </span>
-        <button
-          onClick={() => setShowPreview(!showPreview)}
-          className={`px-2 py-1 rounded text-xs transition ${
-            showPreview
-              ? "bg-blue-500 text-white hover:bg-blue-600"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          {showPreview ? "Edit" : "Preview"}
-        </button>
-      </div>
-
-      {showPreview ? (
-        <div className="min-h-[80px] p-4 border border-gray-300 rounded-lg mb-2 bg-gray-50">
-          {input.trim() ? (
-            <MarkdownRenderer content={input} />
-          ) : (
-            <div className="text-gray-400 italic">
-              Preview will appear here...
-            </div>
-          )}
-        </div>
-      ) : (
-        <textarea
+    <motion.div 
+      className="w-full max-w-md glassmorphism rounded-2xl p-6 relative z-10 glow-on-hover"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      whileHover={{ y: -5 }}
+    >
+      <motion.div className="relative">
+        <input
+          type="text"
           value={input}
           onChange={(e) => {
             const value = e.target.value;
@@ -41,31 +28,52 @@ function LogInput({ maxChars, input, setInput, addLog }) {
               setInput(value);
             }
           }}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onKeyPress={handleKeyPress}
           maxLength={maxChars}
-          placeholder="Enter your log here...&#10;&#10;Try markdown:&#10;**bold text**&#10;*italic text*&#10;`inline code`&#10;## Heading&#10;- List item"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
-          rows="4"
+          placeholder="What's on your mind today? ✨"
+          className={`w-full bg-white/30 backdrop-blur-sm border-2 rounded-xl px-4 py-3 mb-3 text-slate-700 placeholder-slate-500 focus:outline-none transition-all duration-300 ${
+            isFocused ? 'border-indigo-400 shadow-lg shadow-indigo-400/30' : 'border-white/40'
+          }`}
         />
-      )}
-
-      <div className="flex justify-between items-center mb-2">
+        {isFocused && (
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-xl -z-10"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+          />
+        )}
+      </motion.div>
+      
+      <div className="flex justify-between items-center mb-4">
         <div
-          className={`text-sm ${
-            input.length === maxChars ? "text-red-500" : "text-gray-500"
+          className={`text-sm font-medium ${
+            input.length === maxChars ? "text-red-500" : "text-slate-600"
           }`}
         >
           {maxChars - input.length} characters remaining
         </div>
+        <div className="text-xs text-slate-500">
+          Press Enter to add
+        </div>
       </div>
-
-      <button
+      
+      <motion.button
         onClick={addLog}
-        className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition w-full"
         disabled={!input.trim()}
+        className={`btn-ripple w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg transition-all duration-300 ${
+          input.trim() 
+            ? 'hover:shadow-xl hover:scale-105 glow-on-hover' 
+            : 'opacity-50 cursor-not-allowed'
+        }`}
+        whileTap={{ scale: 0.95 }}
+        whileHover={input.trim() ? { scale: 1.02 } : {}}
       >
-        Add Log
-      </button>
-    </div>
+        ➕ Add Log
+      </motion.button>
+    </motion.div>
   );
 }
 

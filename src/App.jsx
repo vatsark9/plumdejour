@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "./components/Navbar.jsx";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Header from "./components/Header";
 import LogInput from "./components/LogInput";
 import LogList from "./components/LogList";
@@ -154,9 +154,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center p-5 font-mono transition-colors duration-300">
-      <Navbar />
-      <Header logs={logs} />
+    <div className="min-h-screen animated-gradient flex flex-col items-center p-5 font-['Inter'] relative">
+      <Header />
       
       {/* View Toggle */}
       <ViewToggle currentView={viewMode} onViewChange={handleViewChange} />
@@ -177,57 +176,20 @@ export default function App() {
         addLog={addLog}
         logs={logs}
       />
-      
-      {/* Conditional Rendering based on view mode */}
-      {viewMode === 'list' ? (
-        <LogList 
-          logs={logs} 
-          updateLog={updateLog} 
-          searchTerm={searchTerm}
-          selectedTags={selectedTags}
-          onTagClick={handleTagClick}
-          onDeleteLog={handleDeleteLog}
-        />
-      ) : (
-        <>
-          <Calendar
-            logs={logs}
-            selectedDate={selectedDate}
-            onDateSelect={handleDateSelect}
-            searchTerm={searchTerm}
-            selectedTags={selectedTags}
-          />
-          <DateLogViewer
-            selectedDate={selectedDate}
-            logs={logs}
-            updateLog={updateLog}
-            onTagClick={handleTagClick}
-            searchTerm={searchTerm}
-            selectedTags={selectedTags}
-          />
-        </>
-      )}
-      
-      <div className="w-full max-w-md mt-6">
-        <div className="flex gap-4">
+      <LogList logs={logs} />
+      <div className="w-full max-w-md mt-8 relative z-10">
+        <div className="flex gap-4 justify-center">
           <button
             onClick={generateSummary}
-            className="summary"
-            title={
-              viewMode === 'calendar' && selectedDate
-                ? `Generate summary from logs on ${selectedDate.toLocaleDateString()}`
-                : filteredLogs.length !== logs.length
-                ? `Generate summary from ${filteredLogs.length} filtered logs`
-                : "Generate summary from all logs"
-            }
+            className="btn-ripple bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 glow-on-hover"
           >
-            {getSummaryButtonText()}
+            ✨ Generate Summary
           </button>
           <button
             onClick={clearLogs}
-            className="bg-red-500 dark:bg-red-600 text-white px-4 py-2 rounded hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300 ml-2"
+            className="btn-ripple bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 glow-on-hover"
           >
-            Clear All
+            🗑️ Clear Logs
           </button>
         </div>
         <Summary summary={summary} />
