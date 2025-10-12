@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
@@ -42,20 +41,17 @@ function LogList({ logs, updateLog, deleteLog }) {
     };
 
     const startEdit = (log) => {
-        setEditingId(log.id);
         setEditText(typeof log === 'string' ? log : log.text);
     };
 
     const saveEdit = (id) => {
         if (editText.trim()) {
             updateLog(id, editText.trim());
-            setEditingId(null);
             setEditText('');
         }
     };
 
     const cancelEdit = () => {
-        setEditingId(null);
         setEditText('');
     };
 
@@ -192,6 +188,13 @@ function LogList({ logs, updateLog, deleteLog }) {
                                     </div>
                                 </div>
                             )}
+                            <button
+                                className="ml-4 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                                onClick={() => onDeleteLog(index)}
+                                aria-label="Delete log"
+                            >
+                                Delete
+                            </button>
                         </li>
                     ))}
                 </ul>

@@ -1,0 +1,19 @@
+/* summary hover effect */
+summary {
+    cursor: pointer;
+    padding: .5rem .75rem;
+    border-radius: 6px;
+    transition: background-color .15s ease, transform .12s ease, box-shadow .12s ease;
+    outline: none;
+}
+
+/* remove default marker (WebKit) */
+summary::-webkit-details-marker { display: none; }
+
+/* hover/focus state */
+summary:hover,
+summary:focus {
+    background-color: #f3f6ff; /* light accent */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(29,41,73,0.08);
+}
