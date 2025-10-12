@@ -87,6 +87,13 @@ export default function App() {
     }
   };
 
+  const deleteLog = (id) => {
+    setLogs(logs.filter((log) => log.id !== id));
+    if (summary) {
+      setSummary("");
+    }
+  };
+
   const generateSummary = () => {
     let logsToSummarize = filteredLogs;
     
@@ -177,37 +184,7 @@ export default function App() {
         addLog={addLog}
         logs={logs}
       />
-      
-      {/* Conditional Rendering based on view mode */}
-      {viewMode === 'list' ? (
-        <LogList 
-          logs={logs} 
-          updateLog={updateLog} 
-          searchTerm={searchTerm}
-          selectedTags={selectedTags}
-          onTagClick={handleTagClick}
-          onDeleteLog={handleDeleteLog}
-        />
-      ) : (
-        <>
-          <Calendar
-            logs={logs}
-            selectedDate={selectedDate}
-            onDateSelect={handleDateSelect}
-            searchTerm={searchTerm}
-            selectedTags={selectedTags}
-          />
-          <DateLogViewer
-            selectedDate={selectedDate}
-            logs={logs}
-            updateLog={updateLog}
-            onTagClick={handleTagClick}
-            searchTerm={searchTerm}
-            selectedTags={selectedTags}
-          />
-        </>
-      )}
-      
+      <LogList logs={logs} updateLog={updateLog} deleteLog={deleteLog} />
       <div className="w-full max-w-md mt-6">
         <div className="flex gap-4">
           <button
