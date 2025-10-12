@@ -146,6 +146,13 @@ export default function App() {
     return 'Generate Summary';
   };
 
+  // Delete log by index (or use a unique id if available)
+  const handleDeleteLog = (index) => {
+    const updatedLogs = logs.filter((_, i) => i !== index);
+    setLogs(updatedLogs);
+    localStorage.setItem("logs", JSON.stringify(updatedLogs));
+  };
+
   return (
     <div className="min-h-screen animated-gradient flex flex-col items-center p-5 font-['Inter'] relative">
       <Header />
