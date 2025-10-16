@@ -54,8 +54,10 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="#issues"
+                href="https://github.com/vatsark9/plumdejour/issues"
                 className="hover:text-purple-600 transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Report an issue
               </a>
