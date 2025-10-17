@@ -65,22 +65,23 @@ function LogList({ logs, updateLog, setShowAuthModal }) {
     };
 
     const startEdit = (log) => {
-        setEditingId(log.id);
         setEditText(typeof log === 'string' ? log : log.text);
     };
 
     const saveEdit = (id) => {
         if (editText.trim()) {
             updateLog(id, editText.trim());
-            setEditingId(null);
             setEditText('');
         }
     };
 
     const cancelEdit = () => {
-        setEditingId(null);
         setEditText('');
     };
+
+    if (!logs || logs.length === 0) {
+        return <p>No logs yet.</p>;
+    }
 
     return (
         <div className="w-full max-w-md mt-8 bg-white shadow-md rounded-2xl p-6">
